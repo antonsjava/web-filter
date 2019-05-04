@@ -169,7 +169,7 @@
              , (status) -> { return status >= 400;}) //respons status check - allow bad statuses 
            .exclude("/foo/bar/**" //path - disallow only this pattern
              , "PUT" //method - disallow POT 
-             , "127.0.0.1" //ip - disallow all incoming ips
+             , "127.0.0.1" //ip - localhost request
              , null //host - disallow all incoming host names
              , null //contentType - disallow all
              , null) //respons status check - disallow all
