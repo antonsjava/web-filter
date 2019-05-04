@@ -4,7 +4,7 @@
  Set of classes usefull for Servlet filter implementation.
   - RequestLimiter. API for filter usage configuration 
   - LogFilter. Implementation of request response logging filter. 
-	Implemented as example of RequestLimiter usage.
+    Implemented as example of RequestLimiter usage.
 
 ## RequestLimiter
 
@@ -19,9 +19,9 @@
  
  As example of usage you add limiter as atttribute of filter 
 ```java
-   public class MyFilter implements Filter {
-      private RequestLimiter limiter = new RequestLimiter();
-      public RequestLimiter limit() { return limiter; }
+  public class MyFilter implements Filter {
+    private RequestLimiter limiter = new RequestLimiter();
+    public RequestLimiter limit() { return limiter; }
 ```
 
  Now you can configure the filter
@@ -38,9 +38,9 @@
  And in MyFilter implementation you can use something like 
 
 ```java
-       if (limiter.allow(request)) { ... do something }
-       chain.doFilter(request, response);
-       if (limiter.allow(request)) { ... do something }
+  if (limiter.allow(request)) { ... do something }
+  chain.doFilter(request, response);
+  if (limiter.allow(request)) { ... do something }
 ```
 
  See LogFilter doc for examples of usage.
@@ -167,7 +167,7 @@
              , null //host - allow all incoming host names
              , MediaType.APPLICATION_JSON_VALUE //contentType - allow only json
              , (status) -> { return status >= 400;}) //respons status check - allow bad statuses 
-           .exclude("/bar/**" //path - disallow only this pattern
+           .exclude("/foo/bar/**" //path - disallow only this pattern
              , "PUT" //method - disallow POT 
              , "127.0.0.1" //ip - disallow all incoming ips
              , null //host - disallow all incoming host names
