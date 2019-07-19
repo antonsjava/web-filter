@@ -4,7 +4,7 @@
 
     <groupId>com.github.antonsjava</groupId>
     <artifactId>web-filter</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>web-filter</name>
@@ -63,7 +63,7 @@
         <dependency>
             <groupId>com.github.antonsjava</groupId>
             <artifactId>web-path-matcher</artifactId>
-            <version>1.0</version>
+            <version>1.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.antonsjava</groupId>

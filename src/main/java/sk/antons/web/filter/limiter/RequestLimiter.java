@@ -63,19 +63,27 @@ import javax.servlet.http.HttpServletRequest;
  * </pre>
  * @author antons
  */
-public class RequestLimiter implements Limiter {
+public class RequestLimiter<T> implements Limiter {
+    
+	private T parent = null;
+    
+    public RequestLimiter(T parent) { this.parent = parent; }
+    
+    public T filter() { return parent; }
+
+
     private Limiter custom = null;
-    private PathConf pathconf = new PathConf(this);
-    private StringConf ipconf = new StringConf(this);
-    private StringConf hostconf = new StringConf(this);
-    private StringConf contenttypeconf = new StringConf(this);
+    private PathConf<RequestLimiter<T>> pathconf = new PathConf<RequestLimiter<T>>(this);
+    private StringConf<RequestLimiter<T>> ipconf = new StringConf<RequestLimiter<T>>(this);
+    private StringConf<RequestLimiter<T>> hostconf = new StringConf<RequestLimiter<T>>(this);
+    private StringConf<RequestLimiter<T>> contenttypeconf = new StringConf<RequestLimiter<T>>(this);
     private ResponseStatusCheck responseStatusCheck = null;
     
     /**
      * Path mather configuration for limiter.
      * @return 
      */
-    public PathConf path() { return pathconf; }
+    public PathConf<RequestLimiter<T>> path() { return pathconf; }
     
     /**
      * Host name configuration for limiter.
@@ -83,7 +91,7 @@ public class RequestLimiter implements Limiter {
      * concrete path in path() configuration.
      * @return 
      */
-    public StringConf host() { return hostconf; }
+    public StringConf<RequestLimiter<T>> host() { return hostconf; }
     
     /**
      * Content type configuration for limiter.
@@ -91,14 +99,14 @@ public class RequestLimiter implements Limiter {
      * concrete path in path() configuration.
      * @return 
      */
-    public StringConf contentType() { return contenttypeconf; }
+    public StringConf<RequestLimiter<T>> contentType() { return contenttypeconf; }
     
     /**
      * You can add your custom limiter implementation.
      * @param limiter
      * @return 
      */
-    public RequestLimiter custom(Limiter limiter) { this.custom = limiter; return this; }
+    public RequestLimiter<T> custom(Limiter limiter) { this.custom = limiter; return this; }
     
     /**
      * Response status configuration for limiter.
@@ -106,13 +114,13 @@ public class RequestLimiter implements Limiter {
      * concrete path in path() configuration.
      * @return 
      */
-    public RequestLimiter responseStatus(ResponseStatusCheck check) { this.responseStatusCheck = check; return this; }
+    public RequestLimiter<T> responseStatus(ResponseStatusCheck check) { this.responseStatusCheck = check; return this; }
     
     /**
      * Clears all settings for this limiter.
      * @return 
      */
-    public RequestLimiter reset() { 
+    public RequestLimiter<T> reset() { 
         pathconf = new PathConf(this);
         ipconf = new StringConf(this);
         hostconf = new StringConf(this);

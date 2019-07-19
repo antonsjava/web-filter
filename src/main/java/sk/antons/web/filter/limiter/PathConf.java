@@ -48,7 +48,7 @@ public class PathConf<T> {
      * @param max maximal number of path element which may occure.
      * @return this path configuration instance
      */
-    public PathConf reset(int max) {
+    public PathConf<T> reset(int max) {
         this.max = max;
         includes = new ArrayList<Combo>();
         excludes = new ArrayList<Combo>();
@@ -60,7 +60,7 @@ public class PathConf<T> {
      * @param pattern pattern for path matcher (mandatory)
      * @return this path configuration instance
      */
-    public PathConf include(String pattern) {
+    public PathConf<T> include(String pattern) {
         return include(pattern, null);
     }
 
@@ -70,7 +70,7 @@ public class PathConf<T> {
      * @param method method applied together with matcher if is is not null
      * @return this path configuration instance
      */
-    public PathConf include(String pattern, String method) { 
+    public PathConf<T> include(String pattern, String method) { 
         includes.add(Combo.instance(PathMatcher.instance(pattern, max), method)); 
         return this;
     }
@@ -85,7 +85,7 @@ public class PathConf<T> {
      * @param responseStatusCheck method applied together with matcher if is is not null
      * @return this path configuration instance
      */
-    public PathConf include(String pattern, String method, String ip, String host, String contenttype, ResponseStatusCheck responseStatusCheck) { 
+    public PathConf<T> include(String pattern, String method, String ip, String host, String contenttype, ResponseStatusCheck responseStatusCheck) { 
         includes.add(Combo.instance(PathMatcher.instance(pattern, max), method, ip, host, contenttype, responseStatusCheck)); 
         return this;
     }
@@ -95,7 +95,7 @@ public class PathConf<T> {
      * @param pattern pattern for path matcher (mandatory)
      * @return this path configuration instance
      */
-    public PathConf exclude(String pattern) {
+    public PathConf<T> exclude(String pattern) {
         return exclude(pattern, null);
     }
 
@@ -105,7 +105,7 @@ public class PathConf<T> {
      * @param method method applied together with matcher if is is not null
      * @return this path configuration instance
      */
-    public PathConf exclude(String pattern, String method) { 
+    public PathConf<T> exclude(String pattern, String method) { 
         excludes.add(Combo.instance(PathMatcher.instance(pattern, max), method)); 
         return this;
     }
@@ -120,7 +120,7 @@ public class PathConf<T> {
      * @param responseStatusCheck method applied together with matcher if is is not null
      * @return this path configuration instance
      */
-    public PathConf exclude(String pattern, String method, String ip, String host, String contenttype, ResponseStatusCheck responseStatusCheck) { 
+    public PathConf<T> exclude(String pattern, String method, String ip, String host, String contenttype, ResponseStatusCheck responseStatusCheck) { 
         excludes.add(Combo.instance(PathMatcher.instance(pattern, max), method, ip, host, contenttype, responseStatusCheck)); 
         return this;
     }
