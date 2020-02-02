@@ -22,6 +22,7 @@ import sk.antons.web.filter.util.ServletRequestWrapper;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -187,6 +188,7 @@ public class LogFilter implements Filter {
     private String requestBeforePrefix = "REQ";
     private String requestPrefix = "REQ";
     private String responsePrefix = "RES";
+    private boolean logIdentity = false;
 
     public static LogFilter instance() { return new LogFilter(); }
 
@@ -370,6 +372,16 @@ public class LogFilter implements Filter {
         responseHeaderFilter.add(value);
         return this; 
     }
+    
+    /**
+     * Configure printing of request to print principal name.
+     * @param value true if info should be logged
+     * @return this
+     */
+    public LogFilter identity(boolean value) { 
+        this.logIdentity = value; 
+        return this; 
+    }
 
     private static long requestId = 1;
     protected void doFilterInternal(ServletRequestWrapper request, ServletResponseWrapper response, FilterChain filterChain) throws ServletException, IOException {
@@ -471,6 +483,15 @@ public class LogFilter implements Filter {
             pathbuff.append(' ').append(method).append(' ').append(pathString);
             if(queryString != null) pathbuff.append('?').append(queryString);
         }
+        if(logIdentity && (httprequest != null)) {
+            requestheaderbuff.append(" identity(");
+            try {
+                Principal user = httprequest.getUserPrincipal();
+                if(user != null) requestheaderbuff.append(user.getName());
+            } catch(Exception e) {
+            }
+            requestheaderbuff.append(")");
+        }
         if(logRequestHeaders && (httprequest != null)) {
             if(forceOneLine) {
                 requestheaderbuff.append(' ').append(request.getProtocol());
@@ -539,7 +560,7 @@ public class LogFilter implements Filter {
                 }
                 if(forceOneLine) {
                     requestpayloadbuff.append(" payload[").append(text).append(']');
-                    requestpayloadbuff.append("] size: ").append(length);
+                    requestpayloadbuff.append(" size: ").append(length);
                 } else {
                     requestpayloadbuff.append("\n-- payload ------------------------\n");
                     requestpayloadbuff.append(text);
