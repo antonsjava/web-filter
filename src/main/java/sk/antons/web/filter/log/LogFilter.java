@@ -688,6 +688,7 @@ public class LogFilter implements Filter {
         if(logResponsePayload) {
             boolean printable = this.printable.isPrintable(response.getContentType());
             boolean jsonable = this.jsonable.isJsonable(response.getContentType());
+            boolean xmlable = this.xmlable.isXmlable(response.getContentType());
             int length = 0;
             InputStream is = null;
             try {
@@ -716,6 +717,12 @@ public class LogFilter implements Filter {
                         } else {
                             try {
                                 if(truncateJsonelementTo > 0) text = JsonFormat.from(text).cutStringLiterals(truncateJsonelementTo).toText();
+                            } catch(Exception e) {}
+						}
+                    } else if(xmlable && (length > 0)) {
+                        if(forceOneLine) {
+                            try {
+                                text = XmlFormat.instance(text, 0).forceoneline().format();
                             } catch(Exception e) {}
 						}
                     } else if((truncateLineTo > 0) || (truncateTo > 0) || forceOneLine) {
