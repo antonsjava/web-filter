@@ -175,6 +175,7 @@ public class LogFilter implements Filter {
     private ConsumerStatus consumerStatus = new LogConsumerStatus();
     private Printable printable = new SimplePrintable();
     private Jsonable jsonable = new SimpleJsonable();
+    private Xmlable xmlable = new SimpleXmlable();
     private final Set<String> requestHeaderFilter = new HashSet<String>();
     private final Set<String> responseHeaderFilter = new HashSet<String>();
     private boolean logRequestHeaders = true;
@@ -246,6 +247,17 @@ public class LogFilter implements Filter {
     public LogFilter jsonable(Jsonable jsonable) {
         if(jsonable == null) throw new IllegalArgumentException("Jsonable can't be null");
         this.jsonable = jsonable;
+        return this; 
+    }
+    
+    /**
+     * Setup xmlable decision provider.
+     * @param printable xmlable decision provider (decision ia SipleXmlablw)
+     * @return this
+     */
+    public LogFilter xmlable(Xmlable xmlable) {
+        if(xmlable == null) throw new IllegalArgumentException("Xmlable can't be null");
+        this.xmlable = xmlable;
         return this; 
     }
     
@@ -531,6 +543,7 @@ public class LogFilter implements Filter {
         if(logRequestPayload) {
             boolean printable = this.printable.isPrintable(request.getContentType());
             boolean jsonable = this.jsonable.isJsonable(request.getContentType());
+            boolean xmlable = this.xmlable.isXmlable(request.getContentType());
             int length = 0;
             InputStream is = null;
             try {
@@ -552,6 +565,12 @@ public class LogFilter implements Filter {
                             try {
                                 if(truncateJsonelementTo > 0) text = JsonFormat.from(text).noindent().cutStringLiterals(truncateJsonelementTo).toText();
                                 else text = JsonFormat.from(text).noindent().toText();
+                            } catch(Exception e) {}
+                        }
+                    } else if(xmlable && (length > 0)) {
+                        if(forceOneLine) {
+                            try {
+                                text = XmlFormat.instance(text, 0).forceoneline().format();
                             } catch(Exception e) {}
                         }
                     } else if((truncateLineTo > 0) || (truncateTo > 0) || forceOneLine) {
