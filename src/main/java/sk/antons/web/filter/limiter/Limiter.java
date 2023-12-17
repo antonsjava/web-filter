@@ -15,7 +15,7 @@
  */
 package sk.antons.web.filter.limiter;
 
-import javax.servlet.ServletRequest;
+import jakarta.servlet.ServletRequest;
 
 /**
  * Checks if request is allowed by this limiter.

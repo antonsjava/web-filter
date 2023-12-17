@@ -15,8 +15,8 @@
  */
 package sk.antons.web.filter.limiter;
 
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Servlet request limiter implementation. If you implement servlet filter 

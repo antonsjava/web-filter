@@ -21,13 +21,14 @@ import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
-import javax.servlet.AsyncContext;
-import javax.servlet.DispatcherType;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.AsyncContext;
+import jakarta.servlet.DispatcherType;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConnection;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 /**
  * Helper class for wrapping HttpServletRequest instances. It enable 
@@ -169,11 +170,6 @@ public class ServletRequestWrapper implements ServletRequest {
     }
 
     @Override
-    public String getRealPath(String string) {
-        return request.getRealPath(string);
-    }
-
-    @Override
     public int getRemotePort() {
         return request.getRemotePort();
     }
@@ -231,6 +227,21 @@ public class ServletRequestWrapper implements ServletRequest {
     @Override
     public DispatcherType getDispatcherType() {
         return request.getDispatcherType();
+    }
+
+    @Override
+    public String getRequestId() {
+        return request.getRequestId();
+    }
+
+    @Override
+    public String getProtocolRequestId() {
+        return request.getProtocolRequestId();
+    }
+
+    @Override
+    public ServletConnection getServletConnection() {
+        return request.getServletConnection();
     }
    
 

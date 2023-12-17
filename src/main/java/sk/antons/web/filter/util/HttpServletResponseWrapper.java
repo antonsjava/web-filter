@@ -17,8 +17,10 @@ package sk.antons.web.filter.util;
 
 import java.io.IOException;
 import java.util.Collection;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Helper class for wrapping HttpServletResponse instances. It enable 
@@ -51,16 +53,6 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
     @Override
     public String encodeRedirectURL(String string) {
         return response.encodeRedirectURL(string);
-    }
-
-    @Override
-    public String encodeUrl(String string) {
-        return response.encodeUrl(string);
-    }
-
-    @Override
-    public String encodeRedirectUrl(String string) {
-        return response.encodeRedirectUrl(string);
     }
 
     @Override
@@ -121,10 +113,6 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
 
     public int getStatus() { return response.getStatus(); }
 
-    @Override
-    public void setStatus(int i, String string) {
-        response.setStatus(i, string);
-    }
 
 
 //    private Map<String, List<String>> headers = new HashMap<String, List<String>>();
@@ -168,4 +156,16 @@ public class HttpServletResponseWrapper extends ServletResponseWrapper implement
     public Collection<String> getHeaderNames() {
         return response.getHeaderNames();
     }
+
+    @Override
+    public void setTrailerFields(Supplier<Map<String, String>> supplier) {
+        response.setTrailerFields(supplier);
+    }
+
+    @Override
+    public Supplier<Map<String, String>> getTrailerFields() {
+        return response.getTrailerFields();
+    }
+
+
 }

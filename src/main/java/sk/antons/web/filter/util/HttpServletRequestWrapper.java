@@ -15,17 +15,18 @@
  */
 package sk.antons.web.filter.util;
 
+import jakarta.servlet.ServletConnection;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Enumeration;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpUpgradeHandler;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpUpgradeHandler;
+import jakarta.servlet.http.Part;
 
 /**
  * Helper class for wrapping HttpServletRequest instances. It enable 
@@ -161,11 +162,6 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     }
 
     @Override
-    public boolean isRequestedSessionIdFromUrl() {
-        return request.isRequestedSessionIdFromUrl();
-    }
-
-    @Override
     public String changeSessionId() {
         return request.changeSessionId();
     }
@@ -198,6 +194,21 @@ public class HttpServletRequestWrapper extends ServletRequestWrapper implements 
     @Override
     public <T extends HttpUpgradeHandler> T upgrade(Class<T> handlerClass) throws IOException, ServletException {
         return request.upgrade(handlerClass);
+    }
+
+    @Override
+    public String getRequestId() {
+        return request.getRequestId();
+    }
+
+    @Override
+    public String getProtocolRequestId() {
+        return request.getProtocolRequestId();
+    }
+
+    @Override
+    public ServletConnection getServletConnection() {
+        return request.getServletConnection();
     }
 
     
